@@ -19,36 +19,9 @@ namespace Tracking.Controllers
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductResponseDto>>> GetProducts(
-            [FromQuery] int page = 1,
-            [FromQuery] int pageSize = 10)
-        {
-            if (page < 1 || pageSize < 1 || pageSize > 100)
-            {
-                return BadRequest("Invalid pagination parameters.");
-            }
-
-            var products = await _context.Products
-                .AsNoTracking()
-                .OrderBy(p => p.Id)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .Select(p => new ProductResponseDto
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Price = p.Price,
-                    CategoryName = p.Category.Name
-                })
-                .ToListAsync();
-
-            return Ok(products);
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductResponseDto>>> GetProducts(
-    [FromQuery] int page = 1,
-    [FromQuery] int pageSize = 10,
-    [FromQuery] string? search = null)
+       [FromQuery] int page = 1,
+       [FromQuery] int pageSize = 10,
+       [FromQuery] string? search = null)
         {
             if (page < 1 || pageSize < 1 || pageSize > 100)
                 return BadRequest("Invalid pagination parameters.");
